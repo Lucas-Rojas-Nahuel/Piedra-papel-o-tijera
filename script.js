@@ -1,92 +1,122 @@
+// buttons
+const buttons = document.querySelectorAll("button");
 
-/* función aleatoria para que elija la computadora entre papel, tijera y piedra */
+const user = document.querySelector("#user");
+const computer = document.querySelector("#computer");
+
+const scoreHuman = document.querySelector("#score-human");
+const scoreComputer = document.querySelector("#score-computer");
+const round = document.querySelector("#round");
+
+const play = document.querySelector("#play");
+const reload = document.querySelector("#reload");
+
+const main = document.querySelector("#main");
+
+const alertas = document.querySelector("#alert");
+const btnAlert = document.querySelector("#btn-alert");
+const titleAlert = document.querySelector("#title-alert");
+const textAlert = document.querySelector("#text-alert");
+
+
+
+const result = document.createElement("span");
+result.id = "result";
+main.appendChild(result);
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (
+      button.id === "play" ||
+      button.id === "reload" ||
+      button.id === "btn-alert"
+    )
+      return;
+    user.textContent = `${button.textContent}`;
+  });
+});
+
+btnAlert.addEventListener("click", () => {
+  alertas.style.display = "none";
+});
+
+reload.addEventListener("click", () => {
+  location.reload();
+});
+
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
   let computerChoice;
 
   switch (randomNumber) {
     case 0:
-      computerChoice = "piedra";
+      computerChoice = "✊";
       break;
     case 1:
-      computerChoice = "papel";
+      computerChoice = "✋";
       break;
     default:
-      computerChoice = "tijera";
+      computerChoice = "✌️";
   }
   return computerChoice;
 }
 
+play.addEventListener("click", () => {
+  const humanChoice = user.textContent;
 
-/* obtenemos la elección del usuario */
-function getHumanChoice() {
-  let userChoice = prompt("Ingrese papel, piedra o tijera para jugar");
-  return userChoice.toLowerCase();
-}
+  if (humanChoice === "❓") {
+    alertas.style.display = "flex";
+    titleAlert.textContent = `Error`;
+    textAlert.textContent="Selecciones unos de los iconos";
+  }
+  const computerSelection = getComputerChoice();
 
-/* creamos las puntuaciones */
-let humanScore = 0;
-let computerScore = 0;
+  if (scoreComputer.textContent < 5 && scoreHuman.textContent < 5) {
+    computer.textContent = computerSelection;
 
-/* creamos el juego con 5 rondas */
-function playGame() {
-  for (let i = 0; i < 5; i++) {
-    function playRound(humanChoice, computerChoice) {
-      if (humanChoice !== computerChoice) {
-        /* cuando el usuario elija piedra */
-        if (humanChoice == "piedra" && computerChoice == "papel") {
-          console.log(`¡Pierdes! ${computerChoice} le gana a ${humanChoice}`);
-          computerScore += 1;
-        } else if (humanChoice == "piedra" && computerChoice == "tijera") {
-          console.log(`¡Ganas! ${humanChoice} le gana a ${computerChoice}`);
-          humanScore += 1;
-        }
+    playRound(humanChoice, computerSelection);
+  } else if (scoreHuman.textContent > scoreComputer.textContent) {
+    alertas.style.display = "flex";
+    titleAlert.textContent = `Ganaste `;
+    textAlert.innerHTML = `Tu puntuación: ${scoreHuman.textContent} <br>
+      La puntuación de la computadora: ${scoreComputer.textContent}`;
+  } else {
+    alertas.style.display = "flex";
+    titleAlert.textContent = "Perdiste";
+    textAlert.innerHTML = `Tu puntuación: ${scoreHuman.textContent} <br>
+      La puntuación de la computadora: ${scoreComputer.textContent}`;
+  }
+});
 
-        /* cuando el usuario elija tijera */
-        if (humanChoice == "tijera" && computerChoice == "papel") {
-          console.log(`¡Ganas! ${humanChoice} le gana a ${computerChoice}`);
-          humanScore += 1;
-        } else if (humanChoice == "tijera" && computerChoice == "piedra") {
-          console.log(`¡Pierdes! ${computerChoice} le gana a ${humanChoice}`);
-          computerScore += 1;
-        }
-
-        /* cuando el usuario elija papel */
-        if (humanChoice == "papel" && computerChoice == "tijera") {
-          console.log(`¡Pierdes! ${computerChoice} le gana a ${humanChoice}`);
-          computerScore += 1;
-        } else if (humanChoice == "papel" && computerChoice == "piedra") {
-          console.log(`¡Ganas! ${humanChoice} le gana a ${computerChoice}`);
-          humanScore += 1;
-        }
-      } else {
-        console.log(`¡Empataron! ${humanChoice} empata con ${computerChoice}`);
-      }
-
-      /* MOSTRAMOS LOS RESULTADOS */
-      console.log(`Puntaje de la computadora: ${computerScore}`);
-      console.log(`Puntaje del jugador: ${humanScore}`);
+function playRound(humanChoice, computerChoice) {
+  if (humanChoice !== computerChoice) {
+    // cuando el usuario elija piedra
+    if (humanChoice == "✊" && computerChoice == "✋") {
+      result.textContent = `¡Pierdes! 😭`;
+      scoreComputer.textContent++;
+    } else if (humanChoice == "✊" && computerChoice == "✌️") {
+      result.textContent = `¡Ganas! 😎`;
+      scoreHuman.textContent++;
     }
 
-    const computerSelection = getComputerChoice();
-    const humanSelection = getHumanChoice();
-
-    playRound(humanSelection, computerSelection);
-  }
-
-  /* comparamos resultadon para ver quien gano */
-  if (i === 4) {
-    if (humanScore > computerScore) {
-      alert(`    Ganaste 
-        Tu puntuación: ${humanScore} 
-        La puntuación de la computadora: ${computerScore}`);
-    } else {
-      alert(`    Perdiste 
-        Tu puntuación: ${humanScore} 
-        La puntuación de la computadora: ${computerScore}`);
+    // cuando el usuario elija tijera
+    if (humanChoice == "✌️" && computerChoice == "✋") {
+      result.textContent = `¡Ganas! 😎`;
+      scoreHuman.textContent++;
+    } else if (humanChoice == "✌️" && computerChoice == "✊") {
+      result.textContent = `¡Pierdes! 😭`;
+      scoreComputer.textContent++;
     }
+
+    // cuando el usuario elija papel
+    if (humanChoice == "✋" && computerChoice == "✌️") {
+      result.textContent = `¡Pierdes! 😭`;
+      scoreComputer.textContent++;
+    } else if (humanChoice == "✋" && computerChoice == "✊") {
+      result.textContent = `¡Ganas! 😎`;
+      scoreHuman.textContent++;
+    }
+  } else {
+    result.textContent = `¡Empataron! ⚔️`;
   }
 }
-
-/* ejecutamos el juego */
-playGame();
