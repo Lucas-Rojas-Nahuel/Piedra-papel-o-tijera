@@ -58,6 +58,7 @@ body {
   position: absolute;
   top: 0;
   z-index: 1;
+  color: #fff;
 }
 
 .left {
@@ -72,6 +73,7 @@ body {
   background-color: #e67e22;
   padding: 10px 40px;
   border-radius: 20px;
+  color: #121212;
 }
 
 .content-btn {
