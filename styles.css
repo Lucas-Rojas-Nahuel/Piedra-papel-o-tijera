@@ -61,11 +61,11 @@ body {
 }
 
 .left {
-  left: 7px;
+  left: -5px;
 }
 
 .rigth {
-  right: 0px;
+  right: -10px;
 }
 
 .score {
