@@ -67,7 +67,7 @@ play.addEventListener("click", () => {
   if (humanChoice === "❓") {
     alertas.style.display = "flex";
     titleAlert.textContent = `Error`;
-    textAlert.textContent="Selecciones unos de los iconos";
+   return textAlert.textContent="Selecciones unos de los iconos";
   }
   const computerSelection = getComputerChoice();
 
